@@ -22,6 +22,14 @@ NCBI stores raw DNA sequences in .sra format, which need to be converted into fa
 - **Clipping**
   
   *--clip* (removes SRA tags used in the whole genome amplification)
+  
+- **Original format**
+  
+  *--origfmt* (retains formatting of original definition line)
+  
+     SRA archive rewrites to include SRA ID and sequence length if this parameter is omitted - this is a problem for BWA  
+     alignment as it does not recognize the new format so errors out >> i.e. ***[mem_sam_pe] paired reads have different names: 
+     "SRR849970.3.1", "SRR849970.3.2"***)
 
 ## Optional parameters
 - **Sequence data formatting**
@@ -38,4 +46,4 @@ NCBI stores raw DNA sequences in .sra format, which need to be converted into fa
   
 ## Example
   
-  *./fastq-dump* ***< SRRxxxxxx >*** *--outdir* ***< ~/PATH >*** *--gzip* *--skip-technical* *--readids* *--dumpbase* *--split-files* *--clip*
+  *./fastq-dump* ***< SRRxxxxxx >*** *--outdir* ***< ~/PATH >*** *--gzip* *--skip-technical* *--readids* *--dumpbase* *--split-files* *--clip* *--origfmt*
