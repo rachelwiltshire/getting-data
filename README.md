@@ -46,4 +46,6 @@ NCBI stores raw DNA sequences in .sra format, which need to be converted into fa
   
 ## Example
   
+  *cd ~/PATH/sratoolkit/bin*
+  
   *./fastq-dump* ***< SRRxxxxxx >*** *--outdir* ***< ~/PATH >*** *--gzip* *--skip-technical* *--readids* *--dumpbase* *--split-files* *--clip* *--origfmt*
