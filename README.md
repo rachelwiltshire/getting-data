@@ -7,38 +7,44 @@ NCBI stores raw DNA sequences in .sra format, which need to be converted into fa
 ## Required parameters
 - **Splitting reads**
 
-  *--split-spot* (splits spots into individual reads)
+  *--split-spot* (splits spots into individual L and R reads, and puts them in the **same** singular file)
   
-  *--split-files* (dump each read into a separate file whose suffix corresponds to the read number)
+  *--split-files* (separates read into L and R ends, and puts FWD and REV reads in **two** separate files)
+  
+  *--split-3* (separates read into L and R ends but if a L has not got a matching R, or vice versa, they will be put into a **single** file)
 
 - **Readids**
   
-  *--readids* (append read ID after spot ID  as 'accession.spot.readid' on defline -> ID.1 = FWD read and ID.2 REV read)
+  *-I | --readids* (appends read ID after spot ID  as 'accession.spot.readid' on defline -> **ID.1** = FWD read and **ID.2** REV read)
+  
+     **NB.** *--readids* breaks BWA in downstream applications so this parameter may need to be omitted if BWA is in your pipeline. See *Original format* for more details.
 
 - **Technical sequences**
   
-  *--skip-technical* (dump only biological reads)
+  *--skip-technical* (dumps only biological reads)
 
 - **Clipping**
   
-  *--clip* (removes SRA tags used in the whole genome amplification)
+  *-W | --clip* (applies L and R clips to remove SRA tags used in the whole genome amplification)
+  
+- **Read filtering**
+
+  *--read-filter* (filters out reads recorded as N). Options are: **pass | reject | criteria | redacted**
   
 - **Original format**
   
-  *--origfmt* (retains formatting of original definition line)
+  *-F | --origfmt* (retains formatting of original definition line)
   
-     SRA archive rewrites to include SRA ID and sequence length if this parameter is omitted - this is a problem for BWA  
-     alignment as it does not recognize the new format so errors out >> i.e. ***[mem_sam_pe] paired reads have different names: 
-     "SRR849970.3.1", "SRR849970.3.2"***)
+     SRA archive rewrites definition line in the seq. to include SRA ID and length if this parameter is omitted - this is a problem for BWA alignment as it doesn't recognize the new format and errors out >> i.e. ***[mem_sam_pe] paired reads have different names: "SRR849970.3.1", "SRR849970.3.2"***)
 
 ## Optional parameters
 - **Sequence data formatting**
   
-  *--dumpbase* (ensures that output is A, T, C and G instead of color space (used for SOLiD))
+  *-B | --dumpbase* (ensures that output is A, T, C and G instead of color space (used for SOLiD))
 
 - **Output to a specific directory**
   
-  *--outdir* <path>
+  *-O | --outdir* <path>
   
 - **Compression**
 
@@ -48,4 +54,4 @@ NCBI stores raw DNA sequences in .sra format, which need to be converted into fa
   
   *cd ~/PATH/sratoolkit/bin*
   
-  *./fastq-dump* ***< SRRxxxxxx >*** *--outdir* ***< ~/PATH >*** *--gzip* *--skip-technical* *--readids* *--dumpbase* *--split-files* *--clip* *--origfmt*
+  *./fastq-dump* ***< SRRxxxxxx >*** *--outdir* ***< ~/PATH >*** *--gzip* *--skip-technical* *--readids* *--dumpbase* *--split-files* *--clip* *--origfmt* *--read-filter* ***pass***
